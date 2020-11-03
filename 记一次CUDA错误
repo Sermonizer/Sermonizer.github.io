@@ -1,0 +1,9 @@
+CUDA out of memory
+最近跑别人的代码的时候，发现一直报错显存不足的错，搜了好久，耽误了两天才把问题解决。记录一下有可能解决问题的几种方法：
+1. 减小batch size. 因为本身batch size就设置为1，所以没办法减小了。但是别的模型遇到此类问题可能有效
+
+2. 更改cuda、cudnn、python、pytorch的版本（存疑）; 可能有效，但试了一下应该不是这里的问题
+  
+3. train的时候，累加loss时要+=loss.item(). 这样就不会把loss的history加进去
+
+4. 用torch.cuda.empty_cache()清楚显存！！！（有效，终于跑起来了！）
